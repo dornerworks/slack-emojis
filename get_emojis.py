@@ -12,10 +12,13 @@ SLACK_URL = 'https://{slack}.slack.com/api/emoji.list?token={token}'
 
 
 def download_image(url, path):
-    r = requests.get(url, stream=True)
-    with open(path, 'wb') as f:
-        for chunk in r.iter_content():
-            f.write(chunk)
+    try:
+        r = requests.get(url, stream=True)
+        with open(path, 'wb') as f:
+            for chunk in r.iter_content():
+                f.write(chunk)
+    except ValueError:
+        print "Oops! " + url + " could not get from slack."
 
 
 def reconcile_aliases(image_url, emoji):
